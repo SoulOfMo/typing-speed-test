@@ -2,7 +2,7 @@ import logoLarge from "../assets/images/logo-large.svg";
 import logoSmall from "../assets/images/logo-small.svg";
 import trophyIcon from "../assets/images/icon-personal-best.svg";
 
-function Header({WPM}) {
+function Header({ bestWpm }) {
   return (
     <div className="m-4 lg-mt-8 lg:mx-28 flex justify-between items-center">
       <img src={logoSmall} alt="Trophy" className="block md:hidden" />
@@ -15,7 +15,7 @@ function Header({WPM}) {
         <p className="capitalize text-(--neutral-400) text-md sm:text-lg tracking-[-0.6px]">
           <span className="hidden sm:inline">Personal </span>
           best:
-          <span className=" text-(--neutral-0)"> {WPM} WPM</span>
+          <span className=" text-(--neutral-0)"> {bestWpm} WPM</span>
         </p>
       </div>
     </div>

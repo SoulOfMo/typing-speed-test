@@ -1,55 +1,61 @@
 /* eslint-disable no-unused-vars */
-import {useEffect, useRef, useState} from "react";
+import { useEffect, useRef, useState } from "react";
 
 import data from "../data/data.json";
 
 export function useTypingTest() {
   const [difficulty, setDifficulty] = useState("Easy");
   const [mode, setMode] = useState("Timed(60s)");
-  const [open, setOpen] = useState(false);
-  const [modeOpen, setModeOpen] = useState(null);
   const [typedChars, setTypedChars] = useState(0);
   const [correctChars, setCorrectChars] = useState(0);
   const [errorCount, setErrorCount] = useState(0);
   const [userInput, setUserInput] = useState("");
   const [passage, setPassage] = useState("");
   const [start, setStart] = useState(false);
+  const [startTime, setStartTime] = useState(null);
   const [showResults, setShowResults] = useState(false);
   const [seconds, setSeconds] = useState(15);
+  const [currentWpm, setCurrentWpm] = useState(0);
+  const [bestWpm, setBestWpm] = useState(() => {
+    const storedWpm = JSON.parse(localStorage.getItem("bestWpm"));
+    return storedWpm || 0;
+  });
 
-  const WPM = mode === "Timed(60s)" ? Math.round(correctChars / 5) : "85";
+  const inputRef = useRef(null);
 
   const accuracy =
     correctChars === 0 ? 0 : Math.round((correctChars / typedChars) * 100);
 
-  const inputRef = useRef(null);
-
-  const handleReset = function () {
+  function handleReset() {
+    setStart(false);
+    setShowResults(false);
     setUserInput("");
     setTypedChars(0);
     setCorrectChars(0);
     setErrorCount(0);
     inputRef.current?.focus();
     inputRef.value = "";
-    mode === "Timed(60s)" && setSeconds(15);
-    mode === "Passage" && setSeconds(0);
-    setStart(false);
-    setShowResults(false);
-  };
+    setMode("Timed(60s)");
+    setSeconds(15);
+    setCurrentWpm(0);
+  }
 
   function onStart() {
-    setStart((start) => !start);
+    setStart(true);
   }
 
   function handleComplete() {
     setShowResults(true);
   }
 
-  const handleTyping = (e) => {
+  // if (bestWpm == 0 && showResults) setBestWpm(currentWpm);
+  // if (currentWpm > bestWpm && showResults) setBestWpm(currentWpm);
+
+  function handleTyping(e) {
     const value = e.target.value;
 
     // Start timer on first keystroke
-    // if (!startTime) setStartTime(Date.now());
+    if (!startTime) setStartTime(Date.now());
 
     const currentIndex = value.length - 1;
     const typedChar = value[currentIndex];
@@ -67,25 +73,20 @@ export function useTypingTest() {
     setUserInput(value);
     // Check if test is complete
     if (value.length === passage.length) handleComplete();
-  };
+  }
 
-  useEffect(() => {
-    handleReset();
-  }, [difficulty]);
-
+  // Timer effect
   useEffect(() => {
     if (!start) return;
     if (mode === "Timed(60s)" && seconds <= 0) {
       handleComplete();
-      setStart(false);
-      mode === "Timed(60s)" && setSeconds(15);
-      mode === "Passage" && setSeconds(0);
       return;
     }
 
     const timer = setInterval(() => {
-      mode === "Timed(60s)" && setSeconds((prev = 10) => prev - 1);
-      mode === "Passage" && setSeconds((prev = 0) => prev + 1);
+      mode === "Timed(60s)"
+        ? setSeconds((prev) => prev - 1)
+        : setSeconds((prev) => prev + 1);
     }, 1000);
     return () => clearInterval(timer);
   }, [seconds, mode, start]);
@@ -100,15 +101,32 @@ export function useTypingTest() {
     mode === "Passage" && setSeconds(0);
   }, [difficulty, mode]);
 
+  useEffect(() => {
+    localStorage.setItem("bestWpm", JSON.stringify(bestWpm));
+  }, [bestWpm]);
+
+  useEffect(() => {
+    if (correctChars <= 0) return;
+    const WPM =
+      mode === "Timed(60s)"
+        ? Math.round(correctChars / 5)
+        : Math.round(correctChars / 5 / ((Date.now() - startTime) / 60000));
+    setCurrentWpm(WPM);
+  }, [correctChars, mode, startTime, bestWpm]);
+
+  useEffect(() => {
+    if (!showResults) return;
+
+    if (bestWpm === 0 || currentWpm > bestWpm) {
+      setBestWpm(currentWpm);
+    }
+  }, [showResults, currentWpm, bestWpm]);
+
   return {
     difficulty,
     setDifficulty,
     mode,
     setMode,
-    open,
-    setOpen,
-    modeOpen,
-    setModeOpen,
     passage,
     handleTyping,
     userInput,
@@ -120,7 +138,9 @@ export function useTypingTest() {
     showResults,
     correctChars,
     errorCount,
-    WPM,
+    WPM: currentWpm,
+    bestWpm,
     accuracy,
+    startTime,
   };
 }

@@ -34,9 +34,8 @@ function TypingArea({
     >
       <div className=" w-full">
         <p
-          className={`text-(--neutral-0) text-4xl leading-[136%] overflow-hidden max-h-[70vh] tracking-[0.4px] ${
-            start ? "" : "blur-sm opacity-40 "
-          } `}
+          className={`text-(--neutral-0) text-4xl leading-[136%] overflow-hidden max-h-[70vh] tracking-[0.4px] ${start ? "" : "blur-sm opacity-40"
+            } `}
         >
           {passage.split("").map((char, index) => (
             <span

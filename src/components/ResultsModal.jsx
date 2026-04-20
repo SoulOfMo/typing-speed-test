@@ -4,17 +4,21 @@ import patternLight from "../assets/images/pattern-star-2.svg";
 
 import Confetti from "./Confetti";
 
-function ResultsModal({handleReset, mode, correctChars, errorCount}) {
-  const WPM = mode === "Timed(60s)" ? Math.round(correctChars / 5) : "85";
-
+function ResultsModal({
+  handleReset,
+  correctChars,
+  errorCount,
+  WPM,
+  accuracy,
+}) {
   const newHighSCore = true;
   return (
     <div className="relative">
-      <div className="relative flex gap-6 flex-col justify-center items-center mt-8 md:mt-16 mx-4 lg:mx-28">
+      <div className="relative mx-4 mt-8 flex flex-col items-center justify-center gap-6 md:mt-16 lg:mx-28">
         {!newHighSCore && (
           <img
             src={patternLight}
-            className=" w-5.25 h-5.25 absolute top-5 left-0"
+            className="absolute top-5 left-0 h-5.25 w-5.25"
             alt=""
           />
         )}
@@ -22,26 +26,26 @@ function ResultsModal({handleReset, mode, correctChars, errorCount}) {
           <img src={completeIcon} className="h-12 w-12" alt="Completed" />
         </div>
         <div className="text-center">
-          <p className="text-2xl  tracking-[0.32px] text-(--neutral-0) font-bold">
+          <p className="text-2xl font-bold tracking-[0.32px] text-(--neutral-0)">
             {/* SET A CONDITION FOR THE IF RESULT DOESN'T EXIST, Baseline Established!, AFTER THE FISRT RESULT (Test Complete!)&& BEST SCORE (High Score Smashed!) */}
             Test Complete!
           </p>
-          <p className=" mt-2.5 text-[16px] text-(--neutral-400) tracking-[-0.48px]">
+          <p className="mt-2.5 text-[16px] tracking-[-0.48px] text-(--neutral-400)">
             Solid run. Keep pushing to beat your high score.
           </p>
         </div>
 
-        <div className=" w-full text-left flex flex-col md:flex-row md:justify-center gap-6">
+        <div className="flex w-full flex-col gap-6 text-left md:flex-row md:justify-center">
           {/* FIX THE SIZE OF THE SPAN ON DESKTOP MODE  */}
-          <span className=" w-full md:w-40 md:h-23 flex flex-col justify-center items-start py-4 px-6 gap-2  box-border border border-(--neutral-400) rounded-lg ">
+          <span className="box-border flex w-full flex-col items-start justify-center gap-2 rounded-lg border border-(--neutral-400) px-6 py-4 md:h-23 md:w-40">
             <p className="text-xl text-(--neutral-400)">WPM:</p>
             <p className="text-2xl font-bold text-(--neutral-0)">{WPM}</p>
           </span>
-          <span className=" w-full md:w-40 md:h-23 flex flex-col justify-center items-start py-4 px-6 gap-3 box-border border border-(--neutral-400) rounded-lg">
+          <span className="box-border flex w-full flex-col items-start justify-center gap-3 rounded-lg border border-(--neutral-400) px-6 py-4 md:h-23 md:w-40">
             <p className="text-xl text-(--neutral-400)">Accuracy:</p>
-            <p className="text-2xl font-bold text-(--red-500)">90%</p>
+            <p className="text-2xl font-bold text-(--red-500)">{accuracy}%</p>
           </span>
-          <span className=" w-full  md:w-40 md:h-23 flex flex-col justify-center items-start py-4 px-6 gap-3 box-border border border-(--neutral-400) rounded-lg">
+          <span className="box-border flex w-full flex-col items-start justify-center gap-3 rounded-lg border border-(--neutral-400) px-6 py-4 md:h-23 md:w-40">
             <p className="text-xl text-(--neutral-400)">Charaters:</p>
             <p className="text-2xl font-bold text-(--neutral-500)">
               <span className="text-(--green-500)">{correctChars}</span>/
@@ -51,7 +55,7 @@ function ResultsModal({handleReset, mode, correctChars, errorCount}) {
         </div>
         <button
           onClick={handleReset}
-          className="flex h-14 mt-4 lg:mt-8 bg-white text-(--neutral-900) gap-2.5 justify-center items-center py-2.5 px-4 rounded-xl"
+          className="mt-4 flex h-14 items-center justify-center gap-2.5 rounded-xl bg-white px-4 py-2.5 text-(--neutral-900) lg:mt-8"
         >
           <span className="text-xl font-semibold">Go again</span>
 
@@ -71,7 +75,7 @@ function ResultsModal({handleReset, mode, correctChars, errorCount}) {
         {!newHighSCore && (
           <img
             src={patternStar}
-            className="self-end w-9.75 h-9.75"
+            className="h-9.75 w-9.75 self-end"
             alt="star pattern"
           />
         )}

@@ -6,7 +6,7 @@ function TypingArea({
   userInput,
   inputRef,
   onStart: handleStart,
-  start,
+  isStarted,
   handleReset,
 }) {
   const getCharStatus = (index) => {
@@ -36,7 +36,7 @@ function TypingArea({
         <div className="w-full">
           <p
             className={`max-h-[70vh] overflow-hidden text-4xl leading-[136%] tracking-[0.4px] text-(--neutral-0) ${
-              start ? "" : "opacity-40 blur-sm"
+              isStarted ? "" : "opacity-40 blur-sm"
             } `}
           >
             {passage.split("").map((char, index) => (
@@ -54,12 +54,14 @@ function TypingArea({
           value={userInput}
           autoFocus
           onChange={handleTyping}
+          id="hidden-input"
+          name="hidden-input"
           onKeyDown={(e) => {
             if (BLOCKED_KEYS.includes(e.key)) e.preventDefault();
           }}
           className="absolute cursor-none opacity-0"
         />
-        {!start && (
+        {!isStarted && (
           <div className="absolute top-0 left-0 flex h-full w-full flex-col items-center justify-center gap-5 text-xl font-semibold text-(--neutral-0)">
             <button
               className="rounded-xl bg-(--blue-600) px-6 py-4 hover:cursor-pointer hover:bg-(--blue-400) focus:outline-1 focus:outline-(--blue-400)"
@@ -67,10 +69,10 @@ function TypingArea({
             >
               Start Typing Test
             </button>
-            <p className="">Or click the text and start typing</p>
+            <p className="">Or click the text and isStarted typing</p>
           </div>
         )}
-        {start && (
+        {isStarted && (
           <div className="mt-16 flex w-full justify-center border-t border-solid border-(--neutral-700) text-(--neutral-0)">
             <button
               onClick={handleReset}

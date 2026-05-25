@@ -38,12 +38,11 @@ export function useTypingTest() {
   const [errorCount, setErrorCount] = useState(0);
   const [userInput, setUserInput] = useState("");
   const [passage, setPassage] = useState("");
-  const [start, setStart] = useState(false);
+  const [isStarted, setIsStarted] = useState(false);
   const [startTime, setStartTime] = useState(null);
   const [showResults, setShowResults] = useState(false);
   const [resultMessage, setResultMessage] = useState({});
-  const [timeRemaining, setTimeRemaining] = useState(30);
-  const [currentWpm, setCurrentWpm] = useState(0);
+  const [timeRemaining, setTimeRemaining] = useState(60);
   const [bestWpm, setBestWpm] = useState(() => {
     const storedWpm = JSON.parse(localStorage.getItem("bestWpm"));
     return storedWpm || 0;
@@ -52,7 +51,7 @@ export function useTypingTest() {
   const inputRef = useRef(null);
 
   function resetTestState() {
-    setStart(false);
+    setIsStarted(false);
     setUserInput("");
     setCorrectChars(0);
     setErrorCount(0);
@@ -64,19 +63,13 @@ export function useTypingTest() {
     resetTestState();
     const passage = getRandomPassage(difficulty);
     setPassage(passage);
-    mode === "Timed(60s)" && setTimeRemaining(30);
+    mode === "Timed(60s)" && setTimeRemaining(60);
     mode === "Passage" && setTimeRemaining(0);
   }, [difficulty, mode]);
 
   //typing
   function handleTyping(e) {
     const value = e.target.value;
-
-    // Start timer on first
-    //slove this impure function
-    if (!startTime) setStartTime(Date.now());
-
-    const currentIndex = value.length - 1;
 
     let correct = 0;
     let errors = 0;
@@ -97,11 +90,17 @@ export function useTypingTest() {
   }
 
   const accuracy =
-    correctChars === 0
-      ? 0
-      : Math.floor((correctChars / userInput.length) * 100);
+    userInput.length > 0
+      ? Math.floor((correctChars / userInput.length) * 100)
+      : 0;
+
+  const currentWpm =
+    correctChars > 0
+      ? calculateWPM(correctChars, startTime, mode, timeRemaining, 60)
+      : 0;
 
   function handleComplete() {
+    if (showResults) return;
     if (bestWpm === 0) {
       setResultMessage(RESULT_MESSAGES[0]);
     } else if (currentWpm > bestWpm) {
@@ -109,34 +108,35 @@ export function useTypingTest() {
     } else {
       setResultMessage(RESULT_MESSAGES[1]);
     }
-    setStart(false);
+    setIsStarted(false);
     setShowResults(true);
   }
 
   useEffect(() => {
-    if (mode === "Timed(60s)" && timeRemaining === 0 && start) {
+    if (mode === "Timed(60s)" && timeRemaining === 0 && isStarted) {
       handleComplete();
     }
-  }, [timeRemaining, mode, start]);
+  }, [timeRemaining, mode, isStarted]);
 
   // Reset
   function handleReset() {
     resetTestState();
     setMode("Timed(60s)");
     setShowResults(false);
-    setTimeRemaining(15);
-    setCurrentWpm(0);
+    setTimeRemaining(60);
     const passage = getRandomPassage(difficulty);
     setPassage(passage);
   }
 
   function onStart() {
-    setStart(true);
+    if (isStarted) return;
+    setIsStarted(true);
+    setStartTime(Date.now());
   }
 
   // Timer effect for
   useEffect(() => {
-    if (!start) return;
+    if (!isStarted) return;
 
     const timer = setInterval(() => {
       setTimeRemaining((prev) => {
@@ -149,19 +149,12 @@ export function useTypingTest() {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [mode, start]);
+  }, [mode, isStarted]);
 
   //LocalStorage for the bestWpm
   useEffect(() => {
     localStorage.setItem("bestWpm", JSON.stringify(bestWpm));
   }, [bestWpm]);
-
-  useEffect(() => {
-    if (correctChars <= 0) return;
-    const WPM = calculateWPM(correctChars, startTime, mode, timeRemaining, 30);
-
-    setCurrentWpm(WPM);
-  }, [correctChars, mode, startTime, timeRemaining]);
 
   useEffect(() => {
     if (!showResults) return;
@@ -180,7 +173,7 @@ export function useTypingTest() {
     handleTyping,
     userInput,
     inputRef,
-    start,
+    isStarted,
     onStart,
     timeRemaining,
     handleReset,

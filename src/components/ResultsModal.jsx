@@ -1,4 +1,3 @@
-import completeIcon from "../assets/images/icon-completed.svg";
 import patternStar from "../assets/images/pattern-star-1.svg";
 import patternLight from "../assets/images/pattern-star-2.svg";
 
@@ -10,28 +9,33 @@ function ResultsModal({
   errorCount,
   WPM,
   accuracy,
+  resultMessage,
 }) {
-  const newHighSCore = true;
   return (
     <div className="relative">
       <div className="relative mx-4 mt-8 flex flex-col items-center justify-center gap-6 md:mt-16 lg:mx-28">
-        {!newHighSCore && (
+        {!resultMessage.newHighScore && (
           <img
             src={patternLight}
             className="absolute top-5 left-0 h-5.25 w-5.25"
             alt=""
           />
         )}
-        <div className="shadow-double-circle rounded-full">
-          <img src={completeIcon} className="h-12 w-12" alt="Completed" />
+        <div
+          className={`${resultMessage.style ? "shadow-double-circle rounded-full" : ""}`}
+        >
+          <img
+            src={resultMessage.image}
+            className="h-12 w-12"
+            alt="Completed"
+          />
         </div>
         <div className="text-center">
           <p className="text-2xl font-bold tracking-[0.32px] text-(--neutral-0)">
-            {/* SET A CONDITION FOR THE IF RESULT DOESN'T EXIST, Baseline Established!, AFTER THE FISRT RESULT (Test Complete!)&& BEST SCORE (High Score Smashed!) */}
-            Test Complete!
+            {resultMessage.resultID}
           </p>
           <p className="mt-2.5 text-[16px] tracking-[-0.48px] text-(--neutral-400)">
-            Solid run. Keep pushing to beat your high score.
+            {resultMessage.message}
           </p>
         </div>
 
@@ -72,7 +76,7 @@ function ResultsModal({
             />
           </svg>
         </button>
-        {!newHighSCore && (
+        {!resultMessage.newHighScore && (
           <img
             src={patternStar}
             className="h-9.75 w-9.75 self-end"
@@ -81,7 +85,7 @@ function ResultsModal({
         )}
       </div>
       {/* work on this Confetti later */}
-      {newHighSCore && <Confetti />}
+      {resultMessage.newHighScore && <Confetti />}
     </div>
   );
 }

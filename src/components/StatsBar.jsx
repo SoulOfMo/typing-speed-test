@@ -5,35 +5,40 @@ function StatsBar({
   setMode,
   setDifficulty,
   difficulty,
-  seconds: secondsRemaining,
+  timeRemaining: secondsRemaining,
   WPM,
   accuracy,
+  start,
 }) {
   const mins = Math.floor(secondsRemaining / 60);
   const seconds = secondsRemaining % 60;
 
   return (
-    <div className="relative flex mx-4 lg:mx-28 mt-8 sm:mt-10 flex-col max-xl:flex-col max-xl:items-center xl:flex-row pb-4 gap-y-5 md:mt-16 sm:pb-4 md:pb-5 border-b border-(--neutral-400) justify-center">
-      <div className="flex justify-center sm:justify-start">
-        <div className="border-r pr-10.25 sm:pr-6 border-(--neutral-400) flex items-center flex-col sm:flex-row sm:gap-3">
-          <span className="text-(--neutral-400) text-md sm:text-xl tracking-[-0.6px] text-center">
+    <div className="relative mx-4 mt-8 flex flex-col justify-center gap-y-5 border-b border-(--neutral-700) pb-4 max-xl:flex-col max-xl:items-center sm:mt-10 sm:pb-4 md:mt-16 md:pb-5 lg:mx-28 lg:justify-between xl:flex-row">
+      <div className="flex justify-center sm:justify-start md:w-121">
+        <div className="flex flex-col items-center border-r border-(--neutral-700) pr-10.25 sm:flex-row sm:gap-3 sm:pr-6">
+          <span className="text-md text-center tracking-[-0.6px] text-(--neutral-400) sm:text-xl">
             WPM:
           </span>
-          <span className="text-(--neutral-0) text-2xl font-bold">{WPM}</span>
+          <span className="text-2xl font-bold text-(--neutral-0)">{WPM}</span>
         </div>
-        <div className="border-r px-6.25 sm:pr-6 border-(--neutral-400) flex items-center flex-col sm:flex-row sm:gap-3">
-          <span className="text-(--neutral-400) text-md sm:text-xl tracking-[-0.6px] text-center">
+        <div className="flex flex-col items-center border-r border-(--neutral-700) px-6.25 sm:flex-row sm:gap-3 sm:pr-6">
+          <span className="text-md text-center tracking-[-0.6px] text-(--neutral-400) sm:text-xl">
             Accuracy:
           </span>
-          <span className="text-(--neutral-0) text-2xl font-bold">
+          <span
+            className={`text-2xl font-bold ${start ? "text-(--red-500)" : "text-(--neutral-0)"} `}
+          >
             {accuracy}%
           </span>
         </div>
-        <div className=" pl-8.25 sm:pr-6 flex items-center flex-col sm:flex-row sm:gap-3">
-          <span className="text-(--neutral-400) text-md sm:text-xl tracking-[-0.6px] text-center">
+        <div className="flex flex-col items-center pl-8.25 sm:flex-row sm:gap-3 sm:pr-6">
+          <span className="text-md text-center tracking-[-0.6px] text-(--neutral-400) sm:text-xl">
             Time:
           </span>
-          <span className="text-(--neutral-0) text-2xl font-bold">{`${String(mins).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`}</span>
+          <span
+            className={`text-2xl font-bold ${start ? "text-(--yellow-400)" : "text-(--neutral-0)"} `}
+          >{`${String(mins).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`}</span>
         </div>
       </div>
 
@@ -46,7 +51,5 @@ function StatsBar({
     </div>
   );
 }
-
-/* WPM Label */
 
 export default StatsBar;

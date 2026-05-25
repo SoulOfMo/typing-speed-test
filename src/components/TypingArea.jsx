@@ -30,55 +30,61 @@ function TypingArea({
       onClick={() => {
         inputRef.current.focus();
       }}
-      className="mx-4 mb-28 lg:mx-28 flex justify-center items-center relative mt-8 flex-col"
+      className="relative mx-4 mt-8 mb-28 flex flex-col items-center justify-center lg:mx-28"
     >
-      <div className=" w-full">
-        <p
-          className={`text-(--neutral-0) text-4xl leading-[136%] overflow-hidden max-h-[70vh] tracking-[0.4px] ${start ? "" : "blur-sm opacity-40"
+      <div className="max-[400px]:hidden sm:block">
+        <div className="w-full">
+          <p
+            className={`max-h-[70vh] overflow-hidden text-4xl leading-[136%] tracking-[0.4px] text-(--neutral-0) ${
+              start ? "" : "opacity-40 blur-sm"
             } `}
-        >
-          {passage.split("").map((char, index) => (
-            <span
-              className={`${getCharStatus(index)} ${index === userInput.length ? "cursor" : ""}`}
-              key={index}
+          >
+            {passage.split("").map((char, index) => (
+              <span
+                className={`${getCharStatus(index)} ${index === userInput.length ? "cursor" : ""}`}
+                key={index}
+              >
+                {char}
+              </span>
+            ))}
+          </p>
+        </div>
+        <input
+          ref={inputRef}
+          value={userInput}
+          autoFocus
+          onChange={handleTyping}
+          onKeyDown={(e) => {
+            if (BLOCKED_KEYS.includes(e.key)) e.preventDefault();
+          }}
+          className="absolute cursor-none opacity-0"
+        />
+        {!start && (
+          <div className="absolute top-0 left-0 flex h-full w-full flex-col items-center justify-center gap-5 text-xl font-semibold text-(--neutral-0)">
+            <button
+              className="rounded-xl bg-(--blue-600) px-6 py-4 hover:cursor-pointer hover:bg-(--blue-400) focus:outline-1 focus:outline-(--blue-400)"
+              onClick={handleStart}
             >
-              {char}
-            </span>
-          ))}
-        </p>
+              Start Typing Test
+            </button>
+            <p className="">Or click the text and start typing</p>
+          </div>
+        )}
+        {start && (
+          <div className="mt-16 flex w-full justify-center border-t border-solid border-(--neutral-700) text-(--neutral-0)">
+            <button
+              onClick={handleReset}
+              className="mt-8 flex w-45.25 items-center justify-center gap-2.5 rounded-xl bg-(--neutral-800) px-4 py-2.5 text-xl"
+            >
+              <span>Restart Test</span>
+              <img src={restartIcon} alt="" />
+            </button>
+          </div>
+        )}
       </div>
-      <input
-        ref={inputRef}
-        value={userInput}
-        autoFocus
-        onChange={handleTyping}
-        onKeyDown={(e) => {
-          if (BLOCKED_KEYS.includes(e.key)) e.preventDefault();
-        }}
-        className="absolute opacity-0"
-      />
-      {!start && (
-        <div className="absolute w-full gap-5 h-full flex flex-col items-center justify-center top-0 left-0 text-xl font-semibold text-(--neutral-0)">
-          <button
-            className="px-6 py-4 rounded-xl bg-(--blue-600) hover:bg-(--blue-400) hover:cursor-pointer focus:outline-1 focus:outline-(--blue-400)"
-            onClick={handleStart}
-          >
-            Start Typing Test
-          </button>
-          <p className="">Or click the text and start typing</p>
-        </div>
-      )}
-      {start && (
-        <div className="border-t border-solid text-(--neutral-0) border-(--var(--neutral-400)) mt-16 w-full flex justify-center ">
-          <button
-            onClick={handleReset}
-            className="text-xl w-45.25 flex items-center justify-center gap-2.5 mt-8 bg-(--neutral-800) py-2.5 px-4 rounded-xl"
-          >
-            <span>Restart Test</span>
-            <img src={restartIcon} alt="" />
-          </button>
-        </div>
-      )}
+      <p className="hidden max-h-[70vh] overflow-hidden text-center text-2xl leading-[136%] tracking-[0.4px] text-(--neutral-0) max-[400px]:block">
+        Try the desktop version for a better experience
+      </p>
     </div>
   );
 }

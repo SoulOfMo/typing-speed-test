@@ -74,9 +74,9 @@ function TypingArea({
           <div className="mt-16 flex w-full justify-center border-t border-solid border-(--neutral-700) text-(--neutral-0)">
             <button
               onClick={handleReset}
-              className="mt-8 flex w-45.25 items-center justify-center gap-2.5 rounded-xl bg-(--neutral-800) px-4 py-2.5 text-xl"
+              className="mt-8 flex h-14 w-45.25 items-center justify-center gap-2.5 rounded-xl bg-(--neutral-800) px-4 py-2.5 text-xl"
             >
-              <span>Restart Test</span>
+              <span className="h-6 text-lg">Restart Test</span>
               <img src={restartIcon} alt="" />
             </button>
           </div>

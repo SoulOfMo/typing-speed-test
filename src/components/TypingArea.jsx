@@ -69,7 +69,7 @@ function TypingArea({
             >
               Start Typing Test
             </button>
-            <p className="">Or click the text and isStarted typing</p>
+            <p className="">Or click the text and start typing</p>
           </div>
         )}
         {isStarted && (

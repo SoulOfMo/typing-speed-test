@@ -1,23 +1,26 @@
-import {useState, useRef} from "react";
+import { useState, useRef } from "react";
+
+import dropDownIcon from "../assets/images/icon-down-arrow.svg";
 
 const OPTIONS = ["Easy", "Medium", "Hard"];
 
-export default function DifficultyDropdown() {
+export default function DifficultyDropdown({ style }) {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("Hard");
   const buttonRef = useRef(null);
 
   return (
-    <div className="relative w-[320px]">
+    <div className="flex items-center gap-2.5 sm:hidden">
       {/* Trigger */}
       <button
         ref={buttonRef}
         onClick={() => setOpen((v) => !v)}
-        className="w-full rounded-xl bg-neutral-800 px-5 py-4 text-left text-white text-xl"
+        className="flex w-[166.5px] items-center justify-center gap-2.5 rounded-lg border border-neutral-500 px-2.5 py-1.5 max-[321px]:w-35"
         aria-haspopup="listbox"
         aria-expanded={open}
       >
-        Difficulty: <span className="font-semibold">{value}</span>
+        <span className="text-neutral-0 text-[16px]">{difficulty}</span>
+        <img src={dropDownIcon} alt="difficulty mode" />
       </button>
 
       {/* Dropdown */}
@@ -41,18 +44,14 @@ export default function DifficultyDropdown() {
                     setOpen(false);
                     buttonRef.current?.focus();
                   }}
-                  className="flex w-full items-center gap-5 px-6 py-6 text-left text-4xl text-white hover:bg-neutral-700 focus:bg-neutral-700 outline-none"
+                  className="flex w-full items-center gap-5 px-6 py-6 text-left text-4xl text-white outline-none hover:bg-neutral-700 focus:bg-neutral-700"
                 >
                   {/* Custom radio */}
                   <span
-                    className={`
-                      w-8 h-8 rounded-full border-2
-                      grid place-items-center
-                      ${selected ? "border-blue-400" : "border-white"}
-                    `}
+                    className={`grid h-8 w-8 place-items-center rounded-full border-2 ${selected ? "border-blue-400" : "border-white"} `}
                   >
                     {selected && (
-                      <span className="w-3 h-3 rounded-full bg-black" />
+                      <span className="h-3 w-3 rounded-full bg-black" />
                     )}
                   </span>
 

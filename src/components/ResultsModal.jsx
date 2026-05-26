@@ -31,35 +31,35 @@ function ResultsModal({
           />
         </div>
         <div className="text-center">
-          <p className="text-2xl font-bold tracking-[0.32px] text-(--neutral-0)">
+          <p className="text-neutral-0 text-2xl font-bold tracking-[0.32px]">
             {resultMessage.resultID}
           </p>
-          <p className="mt-2.5 text-[16px] tracking-[-0.48px] text-(--neutral-400)">
+          <p className="mt-2.5 text-[16px] tracking-[-0.48px] text-neutral-400">
             {resultMessage.message}
           </p>
         </div>
 
         <div className="flex w-full flex-col gap-6 text-left md:flex-row md:justify-center">
           {/* FIX THE SIZE OF THE SPAN ON DESKTOP MODE  */}
-          <span className="box-border flex w-full flex-col items-start justify-center gap-2 rounded-lg border border-(--neutral-400) px-6 py-4 md:h-23 md:w-40">
-            <p className="text-xl text-(--neutral-400)">WPM:</p>
-            <p className="text-2xl font-bold text-(--neutral-0)">{WPM}</p>
+          <span className="box-border flex w-full flex-col items-start justify-center gap-2 rounded-lg border border-neutral-400 px-6 py-4 md:h-23 md:w-40">
+            <p className="text-xl text-neutral-400">WPM:</p>
+            <p className="text-neutral-0 text-2xl font-bold">{WPM}</p>
           </span>
-          <span className="box-border flex w-full flex-col items-start justify-center gap-3 rounded-lg border border-(--neutral-400) px-6 py-4 md:h-23 md:w-40">
-            <p className="text-xl text-(--neutral-400)">Accuracy:</p>
-            <p className="text-2xl font-bold text-(--red-500)">{accuracy}%</p>
+          <span className="box-border flex w-full flex-col items-start justify-center gap-3 rounded-lg border border-neutral-400 px-6 py-4 md:h-23 md:w-40">
+            <p className="text-xl text-neutral-400">Accuracy:</p>
+            <p className="text-2xl font-bold text-red-500">{accuracy}%</p>
           </span>
-          <span className="box-border flex w-full flex-col items-start justify-center gap-3 rounded-lg border border-(--neutral-400) px-6 py-4 md:h-23 md:w-40">
-            <p className="text-xl text-(--neutral-400)">Charaters:</p>
-            <p className="text-2xl font-bold text-(--neutral-500)">
-              <span className="text-(--green-500)">{correctChars}</span>/
-              <span className="text-(--red-500)">{errorCount}</span>
+          <span className="box-border flex w-full flex-col items-start justify-center gap-3 rounded-lg border border-neutral-400 px-6 py-4 md:h-23 md:w-40">
+            <p className="text-xl text-neutral-400">Charaters:</p>
+            <p className="text-2xl font-bold text-neutral-500)">
+              <span className="text-green-500">{correctChars}</span>/
+              <span className="text-red-500">{errorCount}</span>
             </p>
           </span>
         </div>
         <button
           onClick={handleReset}
-          className="mt-4 flex h-14 items-center justify-center gap-2.5 rounded-xl bg-white px-4 py-2.5 text-(--neutral-900) lg:mt-8"
+          className="mt-4 flex h-14 items-center justify-center gap-2.5 rounded-xl bg-white px-4 py-2.5 text-neutral-900 lg:mt-8"
         >
           <span className="text-xl font-semibold">Go again</span>
 

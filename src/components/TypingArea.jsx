@@ -35,7 +35,7 @@ function TypingArea({
       <div className="max-[400px]:hidden sm:block">
         <div className="w-full">
           <p
-            className={`max-h-[70vh] overflow-hidden text-4xl leading-[136%] tracking-[0.4px] text-(--neutral-0) ${
+            className={`text-neutral-0 max-h-[70vh] overflow-hidden text-4xl leading-[136%] tracking-[0.4px] ${
               isStarted ? "" : "opacity-40 blur-sm"
             } `}
           >
@@ -56,15 +56,16 @@ function TypingArea({
           onChange={handleTyping}
           id="hidden-input"
           name="hidden-input"
+          aria-label="typing input field"
           onKeyDown={(e) => {
             if (BLOCKED_KEYS.includes(e.key)) e.preventDefault();
           }}
           className="absolute cursor-none opacity-0"
         />
         {!isStarted && (
-          <div className="absolute top-0 left-0 flex h-full w-full flex-col items-center justify-center gap-5 text-xl font-semibold text-(--neutral-0)">
+          <div className="text-neutral-0 absolute top-0 left-0 flex h-full w-full flex-col items-center justify-center gap-5 text-xl font-semibold">
             <button
-              className="rounded-xl bg-(--blue-600) px-6 py-4 hover:cursor-pointer hover:bg-(--blue-400) focus:outline-1 focus:outline-(--blue-400)"
+              className="focus:shadow-double-ring rounded-xl bg-blue-600 px-6 py-4 hover:cursor-pointer hover:bg-blue-400 focus:outline-none"
               onClick={handleStart}
             >
               Start Typing Test
@@ -73,10 +74,10 @@ function TypingArea({
           </div>
         )}
         {isStarted && (
-          <div className="mt-16 flex w-full justify-center border-t border-solid border-(--neutral-700) text-(--neutral-0)">
+          <div className="text-neutral-0 mt-16 flex w-full justify-center border-t border-solid border-neutral-700">
             <button
               onClick={handleReset}
-              className="mt-8 flex h-14 w-45.25 items-center justify-center gap-2.5 rounded-xl bg-(--neutral-800) px-4 py-2.5 text-xl"
+              className="mt-8 flex h-14 w-45.25 items-center justify-center gap-2.5 rounded-xl bg-neutral-800 px-4 py-2.5 text-xl"
             >
               <span className="h-6 text-lg">Restart Test</span>
               <img src={restartIcon} alt="" />
@@ -84,7 +85,7 @@ function TypingArea({
           </div>
         )}
       </div>
-      <p className="hidden max-h-[70vh] overflow-hidden text-center text-2xl leading-[136%] tracking-[0.4px] text-(--neutral-0) max-[400px]:block">
+      <p className="text-neutral-0 hidden max-h-[70vh] overflow-hidden text-center text-2xl leading-[136%] tracking-[0.4px] max-[400px]:block">
         Try the desktop version for a better experience
       </p>
     </div>

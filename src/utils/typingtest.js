@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useEffect, useRef, useState } from "react";
 import completeIcon from "../assets/images/icon-completed.svg";
 import newPBIcon from "../assets/images/icon-new-pb.svg";
@@ -86,7 +85,7 @@ export function useTypingTest() {
     setErrorCount(errors);
     setUserInput(value);
     // Check if test is complete
-    if (value.length == passage.length) handleComplete();
+    if (value.length === passage.length) handleComplete();
   }
 
   const accuracy =
